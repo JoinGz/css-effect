@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h3 class="typing cursor">typing</h3>
+  <style>
+    .typing {
+      font-family: monospace;
+      display: inline-block;
+    }
+
+    .typing span {
+      overflow: hidden;
+      width: 0ch;
+      display: inline-block;
+      animation: changeWidth 0.1s ease-in-out forwards;
+      animation-delay: var(--delay);
+    }
+
+    .cursor {
+      position: relative;
+    }
+
+    .cursor::after {
+      content: "";
+      display: block;
+      position: absolute;
+      width: 1px;
+      height: 100%;
+      background-color: #000;
+      right: -4px;
+      top: 0;
+    }
+
+    .flash.cursor::after {
+      animation: flash 1.1s steps(2, jump-none) infinite;
+    }
+
+
+    @keyframes changeWidth {
+      from {
+        width: 0ch;
+      }
+
+      to {
+        width: 1ch;
+      }
+    }
+
+    @keyframes flash {
+      from {
+        opacity: 1;
+      }
+
+      to {
+        opacity: 0;
+      }
+    }
+  </style>
+
+  <script>
+    const typing = document.querySelector('.typing')
+    typing.innerHTML = typing.textContent.replace(/\S/g, "<span>$&</span>")
+      .replace(/\s/g, "<span>&nbsp;</span>")
+    const spans = [...typing.querySelectorAll('span')]
+
+    let delay = 0;
+    spans.forEach((span, i) => {
+      delay += 0.2
+      span.style.setProperty('--delay', `${delay}s`)
+    })
+
+    typing.addEventListener('animationend', (e) => {
+      if (e.target === typing.querySelector('span:last-child')) {
+        typing.className += ' flash '
+      }
+    })
+
+
+  </script>
+
+</body>
+
+</html>

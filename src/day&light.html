@@ -1,46 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
 </head>
+
 <body>
   <div class="sum"></div>
-  <div class="light"></div>
+  <div class="night"></div>
+  <div class="sea"></div>
   <style>
-    body{
+    body {
       padding: 0;
       margin: 0;
+      touch-action: none;
     }
-    .sum, .light{
-      width: 50vw;
+
+    .sum,
+    .night {
+      width: 100vw;
       height: 100vh;
     }
 
     .sum {
-      background: greenyellow;
+      background-color: #FFEEA2;
       position: absolute;
       right: 0;
       top: 0;
+      clip-path: inset(0px 50% 0px 0px);
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
-    
-    .light {
-      background: gray;
+
+    .sum::after {
+      width: 50vh;
+      height: 50vh;
+
+
+      content: "";
+      display: block;
+      background: orange;
+      border-radius: 50%;
+    }
+
+    .night {
       position: absolute;
       left: 0;
       top: 0;
+      background-color: #040720;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .night::after {
+      content: '';
+      display: block;
+      width: 50vh;
+      height: 50vh;
+      box-shadow: 20vh 15vh 0px cyan;
+      border-radius: 50%;
+      transform: translate(-20vh, -15vh);
+    }
+
+    .sea {
+      height: 40vh;
+      width: 100vw;
+      position: absolute;
+      z-index: 2;
+      backdrop-filter: blur(100px);
+      bottom: 0;
+      left: 0;
     }
   </style>
 
   <script>
     const sum = document.querySelector('.sum')
-    const light = document.querySelector('.light')
-    document.addEventListener('mousemove',(e)=>{
-      light.style.width = e.x + 'px'
-      sum.style.width = document.body.offsetWidth - e.x + 'px'
+    const night = document.querySelector('.night')
+    document.addEventListener('pointermove', (e) => {
+      const percentage =  ((1 - e.x / window.innerWidth) * 100).toFixed()
+      sum.style.clipPath = `inset(0px ${percentage}% 0px 0px)`;
+      // night.style.width = e.x + 'px'
+      // sum.style.width = document.body.offsetWidth - e.x + 'px'
     })
+
   </script>
 </body>
+
 </html>

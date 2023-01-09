@@ -15,6 +15,7 @@
       <path id="heart" transform="translate(10, 10)"
         d="M256,96.5l-19.7-20.3C186.1,24.3,104.5,15.9,49.7,62.6c-62.8,53.6-66.1,149.8-9.9,207.9l193.5,199.8 c12.5,12.9,32.8,12.9,45.3,0l193.5-199.8c56.3-58.1,53-154.3-9.8-207.9l0,0C407.5,15.9,326,24.3,275.7,76.2L256,96.5z" />
     </svg>
+    <span id="dot"></span>
   </label>
 </body>
 
@@ -31,8 +32,16 @@
     align-items: center;
   }
 
+  label {
+    cursor: pointer;
+    user-select: none;
+    touch-action: none;
+  }
+
   #heart_container {
     width: 20vw;
+    position: relative;
+    z-index: 1;
   }
 
   #heart {
@@ -40,7 +49,7 @@
     /* 描边色 */
     stroke: red;
     /* 边框宽度 */
-    stroke-width: 2vw;
+    stroke-width: min(1.5vw, 20px);
 
     stroke-linecap: round;
     stroke-dasharray: 1600;
@@ -55,7 +64,7 @@
       fill: #eee
     }
 
-    90%{
+    90% {
       fill: #eee
     }
 
@@ -70,7 +79,100 @@
   }
 
   #heartInput:checked+svg #heart {
-    animation: fillStroke 2s ease-out forwards;
+    animation: fillStroke 1s linear forwards;
+  }
+
+  #dot,
+  #dot::after {
+    content: "";
+    display: block;
+
+    background: red;
+    border-radius: 50%;
+
+    background-color: transparent;
+
+    width: 3vw;
+    height: 3vw;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+
+    box-shadow: 0 -16vw 0 red, -16vw 0 0 red, 16vw 0 red, 0 16vw 0 red;
+  }
+
+  #dot::after {
+    transform: translate(-50%, -50%) rotate(45deg) scale(0);
+  }
+
+
+  #heartInput:checked~#dot {
+    animation: showDot 0.5s 0.85s ease-in-out;
+  }
+
+  #heartInput:checked~#dot::after {
+    animation: showDotAfter 0.5s 0.85s ease-in-out;
+  }
+
+
+  @keyframes showDot {
+    0% {
+      transform: translate(-50%, -50%) scale(0);
+      opacity: .8;
+    }
+
+    50% {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: .8;
+    }
+
+    100% {
+      transform: translate(-50%, -50%) scale(1.1);
+      opacity: 0;
+    }
+
+  }
+
+  @keyframes showDotAfter {
+    0% {
+      transform: translate(-50%, -50%) rotate(45deg) scale(0);
+      opacity: .8;
+    }
+
+    50% {
+      transform: translate(-50%, -50%) rotate(45deg) scale(1);
+      opacity: .8;
+    }
+
+    100% {
+      transform: translate(-50%, -50%) rotate(45deg) scale(1.1);
+      opacity: 0;
+    }
+
+  }
+
+  #heartInput:checked+ #heart_container {
+    animation: 1.1s pop linear forwards;
+  }
+
+  @keyframes pop {
+    0% {
+      transform: scale(1);
+    }
+
+    70% {
+      transform: scale(1);
+    }
+
+    80% {
+      transform: scale(1.2);
+    }
+
+    100% {
+      transform: scale(1);
+    }
   }
 </style>
 
